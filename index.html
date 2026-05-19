@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Student Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-wallet"></i>
+                <h2>AI Tracker</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li class="active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fa-solid fa-chart-pie"></i> Dashboard</li>
+                    <li onclick="document.getElementById('ai-advisor-section').scrollIntoView({ behavior: 'smooth' })"><i class="fa-solid fa-robot"></i> AI Advisor</li>
+                    <li><a href="#" id="download-btn" style="color: inherit; text-decoration: none; display: flex; gap: 10px; align-items: center; width: 100%;"><i class="fa-solid fa-download"></i> Export CSV</a></li>
+                </ul>
+            </nav>
+            <div class="budget-section">
+                <h3>Monthly Budget</h3>
+                <input type="number" id="budget-input" placeholder="Set Budget ($)">
+                <button id="set-budget-btn" class="btn secondary-btn">Save</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+                <h1>Overview</h1>
+                <div class="user-profile">
+                    <span>Student Mode</span>
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+            </header>
+
+            <!-- Alerts -->
+            <div id="budget-alert" class="alert hidden">
+                <i class="fa-solid fa-triangle-exclamation"></i> Warning: You have exceeded your monthly budget!
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="card">
+                    <h3>Total Expenses</h3>
+                    <p class="amount" id="total-expense">$0.00</p>
+                </div>
+                <div class="card ai-card">
+                    <h3><i class="fa-solid fa-wand-magic-sparkles"></i> AI Predicted Next Month</h3>
+                    <p class="amount" id="ai-prediction">Loading...</p>
+                    <button id="predict-btn" class="btn ai-btn">Predict Now</button>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Add Expense Form -->
+                <div class="card form-card">
+                    <h2>Add New Expense</h2>
+                    <form id="expense-form">
+                        <div class="form-group">
+                            <label for="title">Expense Title</label>
+                            <input type="text" id="title" required placeholder="e.g., Textbooks">
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount ($)</label>
+                            <input type="number" id="amount" required step="0.01" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="category" required>
+                                <option value="Food">Food</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Education">Education</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" required>
+                        </div>
+                        <button type="submit" class="btn primary-btn">Add Expense</button>
+                    </form>
+                </div>
+
+                <!-- AI Advisor Section -->
+                <div class="card advisor-card" id="ai-advisor-section">
+                    <h2><i class="fa-solid fa-robot"></i> AI Financial Advisor</h2>
+                    <div id="ai-suggestions" class="suggestions-box">
+                        <p>Click "Analyze" to get smart spending suggestions!</p>
+                    </div>
+                    <button id="analyze-btn" class="btn ai-btn">Analyze Spending</button>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="dashboard-grid charts-grid">
+                <div class="card chart-card">
+                    <h2>Expenses by Category</h2>
+                    <canvas id="categoryPieChart"></canvas>
+                </div>
+                <div class="card chart-card">
+                    <h2>Monthly Spending Trend</h2>
+                    <canvas id="monthlyBarChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Expense Table -->
+            <div class="card table-card">
+                <h2>Recent Expenses</h2>
+                <div class="table-responsive">
+                    <table id="expense-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expense-list">
+                            <!-- Expenses will be added here via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
